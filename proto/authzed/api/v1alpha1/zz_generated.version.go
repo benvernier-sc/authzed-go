@@ -1,6 +1,6 @@
 package v1alpha1
 
 const (
-	BufRepository = "buf.build/authzed/api"
-	BufTag        = "81d767dd7dc1566ebe956a0fabe05254605482d8"
+	BufRepository = "https://github.com/benvernier-sc/authzed-api.git"
+	BufTag        = "880739d0f1b564162265bb0b9f227c96be7b6c55"
 )
