@@ -936,10 +936,12 @@
       "type": "object",
       "properties": {
         "old": {
-          "$ref": "#/definitions/v1Relationship"
+          "$ref": "#/definitions/v1Relationship",
+          "description": "old is the previous relationship."
         },
         "new": {
-          "$ref": "#/definitions/v1Relationship"
+          "$ref": "#/definitions/v1Relationship",
+          "description": "new is the new relationship."
         }
       }
     },
@@ -2527,19 +2529,24 @@
     "v1RelationshipUpdateStatus": {
       "type": "object",
       "properties": {
-        "noop": {
-          "$ref": "#/definitions/v1Relationship"
+        "noOp": {
+          "$ref": "#/definitions/v1Relationship",
+          "description": "no_op indicates that the relationship was not changed (already existed on TOUCH, or didn't exist on DELETE)."
         },
         "created": {
-          "$ref": "#/definitions/v1Relationship"
+          "$ref": "#/definitions/v1Relationship",
+          "description": "created indicates that the relationship was created."
         },
         "deleted": {
-          "$ref": "#/definitions/v1Relationship"
+          "$ref": "#/definitions/v1Relationship",
+          "description": "deleted indicates that the relationship was deleted."
         },
         "updated": {
-          "$ref": "#/definitions/RelationshipUpdateStatusUpdate"
+          "$ref": "#/definitions/RelationshipUpdateStatusUpdate",
+          "description": "updated indicates that the relationship was updated."
         }
-      }
+      },
+      "description": "RelationshipUpdateStatus is the status of a relationship update."
     },
     "v1ResolvedSubject": {
       "type": "object",
@@ -2646,7 +2653,8 @@
           "title": "To be bounded by configuration"
         },
         "withStatus": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "with_status, if true, indicates that the response should include the status of each update.\nThis can be useful for knowing how to rollback a given call to WriteRelationships, but adds a small amount\nof compute overhead to the request."
         }
       },
       "description": "WriteRelationshipsRequest contains a list of Relationship mutations that\nshould be applied to the service. If the optional_preconditions parameter\nis included, all of the specified preconditions must also be satisfied before\nthe write will be committed."
@@ -2655,14 +2663,16 @@
       "type": "object",
       "properties": {
         "writtenAt": {
-          "$ref": "#/definitions/v1ZedToken"
+          "$ref": "#/definitions/v1ZedToken",
+          "description": "written_at is the revision at which the relationships were written."
         },
         "updates": {
           "type": "array",
           "items": {
             "type": "object",
             "$ref": "#/definitions/v1RelationshipUpdateStatus"
-          }
+          },
+          "description": "updates is the status of each relationship update, if requested."
         }
       }
     },

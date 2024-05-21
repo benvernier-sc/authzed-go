@@ -263,12 +263,12 @@ func (m *RelationshipUpdateStatus) CloneMessageVT() proto.Message {
 	return m.CloneVT()
 }
 
-func (m *RelationshipUpdateStatus_Noop) CloneVT() isRelationshipUpdateStatus_Status {
+func (m *RelationshipUpdateStatus_NoOp) CloneVT() isRelationshipUpdateStatus_Status {
 	if m == nil {
-		return (*RelationshipUpdateStatus_Noop)(nil)
+		return (*RelationshipUpdateStatus_NoOp)(nil)
 	}
-	r := new(RelationshipUpdateStatus_Noop)
-	r.Noop = m.Noop.CloneVT()
+	r := new(RelationshipUpdateStatus_NoOp)
+	r.NoOp = m.NoOp.CloneVT()
 	return r
 }
 
@@ -1065,8 +1065,8 @@ func (this *RelationshipUpdateStatus) EqualMessageVT(thatMsg proto.Message) bool
 	}
 	return this.EqualVT(that)
 }
-func (this *RelationshipUpdateStatus_Noop) EqualVT(thatIface isRelationshipUpdateStatus_Status) bool {
-	that, ok := thatIface.(*RelationshipUpdateStatus_Noop)
+func (this *RelationshipUpdateStatus_NoOp) EqualVT(thatIface isRelationshipUpdateStatus_Status) bool {
+	that, ok := thatIface.(*RelationshipUpdateStatus_NoOp)
 	if !ok {
 		return false
 	}
@@ -1076,7 +1076,7 @@ func (this *RelationshipUpdateStatus_Noop) EqualVT(thatIface isRelationshipUpdat
 	if this == nil && that != nil || this != nil && that == nil {
 		return false
 	}
-	if p, q := this.Noop, that.Noop; p != q {
+	if p, q := this.NoOp, that.NoOp; p != q {
 		if p == nil {
 			p = &Relationship{}
 		}
@@ -2400,15 +2400,15 @@ func (m *RelationshipUpdateStatus) MarshalToSizedBufferVT(dAtA []byte) (int, err
 	return len(dAtA) - i, nil
 }
 
-func (m *RelationshipUpdateStatus_Noop) MarshalToVT(dAtA []byte) (int, error) {
+func (m *RelationshipUpdateStatus_NoOp) MarshalToVT(dAtA []byte) (int, error) {
 	size := m.SizeVT()
 	return m.MarshalToSizedBufferVT(dAtA[:size])
 }
 
-func (m *RelationshipUpdateStatus_Noop) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+func (m *RelationshipUpdateStatus_NoOp) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 	i := len(dAtA)
-	if m.Noop != nil {
-		size, err := m.Noop.MarshalToSizedBufferVT(dAtA[:i])
+	if m.NoOp != nil {
+		size, err := m.NoOp.MarshalToSizedBufferVT(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -3923,14 +3923,14 @@ func (m *RelationshipUpdateStatus) SizeVT() (n int) {
 	return n
 }
 
-func (m *RelationshipUpdateStatus_Noop) SizeVT() (n int) {
+func (m *RelationshipUpdateStatus_NoOp) SizeVT() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Noop != nil {
-		l = m.Noop.SizeVT()
+	if m.NoOp != nil {
+		l = m.NoOp.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
 	return n
@@ -5798,7 +5798,7 @@ func (m *RelationshipUpdateStatus) UnmarshalVT(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Noop", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NoOp", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -5825,8 +5825,8 @@ func (m *RelationshipUpdateStatus) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if oneof, ok := m.Status.(*RelationshipUpdateStatus_Noop); ok {
-				if err := oneof.Noop.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+			if oneof, ok := m.Status.(*RelationshipUpdateStatus_NoOp); ok {
+				if err := oneof.NoOp.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
 			} else {
@@ -5834,7 +5834,7 @@ func (m *RelationshipUpdateStatus) UnmarshalVT(dAtA []byte) error {
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
-				m.Status = &RelationshipUpdateStatus_Noop{Noop: v}
+				m.Status = &RelationshipUpdateStatus_NoOp{NoOp: v}
 			}
 			iNdEx = postIndex
 		case 2:
