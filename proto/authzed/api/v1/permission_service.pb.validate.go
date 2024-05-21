@@ -1489,35 +1489,173 @@ func (m *RelationshipUpdateStatus) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Status
+	switch v := m.Status.(type) {
+	case *RelationshipUpdateStatus_Noop:
+		if v == nil {
+			err := RelationshipUpdateStatusValidationError{
+				field:  "Status",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
-	if all {
-		switch v := interface{}(m.GetRelationship()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, RelationshipUpdateStatusValidationError{
-					field:  "Relationship",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+		if all {
+			switch v := interface{}(m.GetNoop()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Noop",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Noop",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(m.GetNoop()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, RelationshipUpdateStatusValidationError{
-					field:  "Relationship",
+				return RelationshipUpdateStatusValidationError{
+					field:  "Noop",
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetRelationship()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return RelationshipUpdateStatusValidationError{
-				field:  "Relationship",
-				reason: "embedded message failed validation",
-				cause:  err,
+
+	case *RelationshipUpdateStatus_Created:
+		if v == nil {
+			err := RelationshipUpdateStatusValidationError{
+				field:  "Status",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetCreated()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Created",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Created",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetCreated()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RelationshipUpdateStatusValidationError{
+					field:  "Created",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
 			}
 		}
+
+	case *RelationshipUpdateStatus_Deleted:
+		if v == nil {
+			err := RelationshipUpdateStatusValidationError{
+				field:  "Status",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetDeleted()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Deleted",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Deleted",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetDeleted()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RelationshipUpdateStatusValidationError{
+					field:  "Deleted",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *RelationshipUpdateStatus_Updated:
+		if v == nil {
+			err := RelationshipUpdateStatusValidationError{
+				field:  "Status",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetUpdated()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Updated",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RelationshipUpdateStatusValidationError{
+						field:  "Updated",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetUpdated()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RelationshipUpdateStatusValidationError{
+					field:  "Updated",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
 	}
 
 	if len(errors) > 0 {
@@ -1651,7 +1789,7 @@ func (m *WriteRelationshipsResponse) validate(all bool) error {
 		}
 	}
 
-	for idx, item := range m.GetUpdateStatuses() {
+	for idx, item := range m.GetUpdates() {
 		_, _ = idx, item
 
 		if all {
@@ -1659,7 +1797,7 @@ func (m *WriteRelationshipsResponse) validate(all bool) error {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, WriteRelationshipsResponseValidationError{
-						field:  fmt.Sprintf("UpdateStatuses[%v]", idx),
+						field:  fmt.Sprintf("Updates[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1667,7 +1805,7 @@ func (m *WriteRelationshipsResponse) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, WriteRelationshipsResponseValidationError{
-						field:  fmt.Sprintf("UpdateStatuses[%v]", idx),
+						field:  fmt.Sprintf("Updates[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1676,7 +1814,7 @@ func (m *WriteRelationshipsResponse) validate(all bool) error {
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return WriteRelationshipsResponseValidationError{
-					field:  fmt.Sprintf("UpdateStatuses[%v]", idx),
+					field:  fmt.Sprintf("Updates[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -5287,3 +5425,164 @@ var _ interface {
 } = SubjectFilter_RelationFilterValidationError{}
 
 var _SubjectFilter_RelationFilter_Relation_Pattern = regexp.MustCompile("^([a-z][a-z0-9_]{1,62}[a-z0-9])?$")
+
+// Validate checks the field values on RelationshipUpdateStatus_Update with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RelationshipUpdateStatus_Update) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RelationshipUpdateStatus_Update with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// RelationshipUpdateStatus_UpdateMultiError, or nil if none found.
+func (m *RelationshipUpdateStatus_Update) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RelationshipUpdateStatus_Update) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetOld()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RelationshipUpdateStatus_UpdateValidationError{
+					field:  "Old",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RelationshipUpdateStatus_UpdateValidationError{
+					field:  "Old",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOld()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RelationshipUpdateStatus_UpdateValidationError{
+				field:  "Old",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetNew()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RelationshipUpdateStatus_UpdateValidationError{
+					field:  "New",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RelationshipUpdateStatus_UpdateValidationError{
+					field:  "New",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetNew()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RelationshipUpdateStatus_UpdateValidationError{
+				field:  "New",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return RelationshipUpdateStatus_UpdateMultiError(errors)
+	}
+
+	return nil
+}
+
+// RelationshipUpdateStatus_UpdateMultiError is an error wrapping multiple
+// validation errors returned by RelationshipUpdateStatus_Update.ValidateAll()
+// if the designated constraints aren't met.
+type RelationshipUpdateStatus_UpdateMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RelationshipUpdateStatus_UpdateMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RelationshipUpdateStatus_UpdateMultiError) AllErrors() []error { return m }
+
+// RelationshipUpdateStatus_UpdateValidationError is the validation error
+// returned by RelationshipUpdateStatus_Update.Validate if the designated
+// constraints aren't met.
+type RelationshipUpdateStatus_UpdateValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RelationshipUpdateStatus_UpdateValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RelationshipUpdateStatus_UpdateValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RelationshipUpdateStatus_UpdateValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RelationshipUpdateStatus_UpdateValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RelationshipUpdateStatus_UpdateValidationError) ErrorName() string {
+	return "RelationshipUpdateStatus_UpdateValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RelationshipUpdateStatus_UpdateValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRelationshipUpdateStatus_Update.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RelationshipUpdateStatus_UpdateValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RelationshipUpdateStatus_UpdateValidationError{}

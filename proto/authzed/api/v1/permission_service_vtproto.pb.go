@@ -224,13 +224,34 @@ func (m *WriteRelationshipsRequest) CloneMessageVT() proto.Message {
 	return m.CloneVT()
 }
 
+func (m *RelationshipUpdateStatus_Update) CloneVT() *RelationshipUpdateStatus_Update {
+	if m == nil {
+		return (*RelationshipUpdateStatus_Update)(nil)
+	}
+	r := new(RelationshipUpdateStatus_Update)
+	r.Old = m.Old.CloneVT()
+	r.New = m.New.CloneVT()
+	if len(m.unknownFields) > 0 {
+		r.unknownFields = make([]byte, len(m.unknownFields))
+		copy(r.unknownFields, m.unknownFields)
+	}
+	return r
+}
+
+func (m *RelationshipUpdateStatus_Update) CloneMessageVT() proto.Message {
+	return m.CloneVT()
+}
+
 func (m *RelationshipUpdateStatus) CloneVT() *RelationshipUpdateStatus {
 	if m == nil {
 		return (*RelationshipUpdateStatus)(nil)
 	}
 	r := new(RelationshipUpdateStatus)
-	r.Status = m.Status
-	r.Relationship = m.Relationship.CloneVT()
+	if m.Status != nil {
+		r.Status = m.Status.(interface {
+			CloneVT() isRelationshipUpdateStatus_Status
+		}).CloneVT()
+	}
 	if len(m.unknownFields) > 0 {
 		r.unknownFields = make([]byte, len(m.unknownFields))
 		copy(r.unknownFields, m.unknownFields)
@@ -242,18 +263,54 @@ func (m *RelationshipUpdateStatus) CloneMessageVT() proto.Message {
 	return m.CloneVT()
 }
 
+func (m *RelationshipUpdateStatus_Noop) CloneVT() isRelationshipUpdateStatus_Status {
+	if m == nil {
+		return (*RelationshipUpdateStatus_Noop)(nil)
+	}
+	r := new(RelationshipUpdateStatus_Noop)
+	r.Noop = m.Noop.CloneVT()
+	return r
+}
+
+func (m *RelationshipUpdateStatus_Created) CloneVT() isRelationshipUpdateStatus_Status {
+	if m == nil {
+		return (*RelationshipUpdateStatus_Created)(nil)
+	}
+	r := new(RelationshipUpdateStatus_Created)
+	r.Created = m.Created.CloneVT()
+	return r
+}
+
+func (m *RelationshipUpdateStatus_Deleted) CloneVT() isRelationshipUpdateStatus_Status {
+	if m == nil {
+		return (*RelationshipUpdateStatus_Deleted)(nil)
+	}
+	r := new(RelationshipUpdateStatus_Deleted)
+	r.Deleted = m.Deleted.CloneVT()
+	return r
+}
+
+func (m *RelationshipUpdateStatus_Updated) CloneVT() isRelationshipUpdateStatus_Status {
+	if m == nil {
+		return (*RelationshipUpdateStatus_Updated)(nil)
+	}
+	r := new(RelationshipUpdateStatus_Updated)
+	r.Updated = m.Updated.CloneVT()
+	return r
+}
+
 func (m *WriteRelationshipsResponse) CloneVT() *WriteRelationshipsResponse {
 	if m == nil {
 		return (*WriteRelationshipsResponse)(nil)
 	}
 	r := new(WriteRelationshipsResponse)
 	r.WrittenAt = m.WrittenAt.CloneVT()
-	if rhs := m.UpdateStatuses; rhs != nil {
+	if rhs := m.Updates; rhs != nil {
 		tmpContainer := make([]*RelationshipUpdateStatus, len(rhs))
 		for k, v := range rhs {
 			tmpContainer[k] = v.CloneVT()
 		}
-		r.UpdateStatuses = tmpContainer
+		r.Updates = tmpContainer
 	}
 	if len(m.unknownFields) > 0 {
 		r.unknownFields = make([]byte, len(m.unknownFields))
@@ -958,17 +1015,45 @@ func (this *WriteRelationshipsRequest) EqualMessageVT(thatMsg proto.Message) boo
 	}
 	return this.EqualVT(that)
 }
+func (this *RelationshipUpdateStatus_Update) EqualVT(that *RelationshipUpdateStatus_Update) bool {
+	if this == that {
+		return true
+	} else if this == nil || that == nil {
+		return false
+	}
+	if !this.Old.EqualVT(that.Old) {
+		return false
+	}
+	if !this.New.EqualVT(that.New) {
+		return false
+	}
+	return string(this.unknownFields) == string(that.unknownFields)
+}
+
+func (this *RelationshipUpdateStatus_Update) EqualMessageVT(thatMsg proto.Message) bool {
+	that, ok := thatMsg.(*RelationshipUpdateStatus_Update)
+	if !ok {
+		return false
+	}
+	return this.EqualVT(that)
+}
 func (this *RelationshipUpdateStatus) EqualVT(that *RelationshipUpdateStatus) bool {
 	if this == that {
 		return true
 	} else if this == nil || that == nil {
 		return false
 	}
-	if this.Status != that.Status {
+	if this.Status == nil && that.Status != nil {
 		return false
-	}
-	if !this.Relationship.EqualVT(that.Relationship) {
-		return false
+	} else if this.Status != nil {
+		if that.Status == nil {
+			return false
+		}
+		if !this.Status.(interface {
+			EqualVT(isRelationshipUpdateStatus_Status) bool
+		}).EqualVT(that.Status) {
+			return false
+		}
 	}
 	return string(this.unknownFields) == string(that.unknownFields)
 }
@@ -980,6 +1065,106 @@ func (this *RelationshipUpdateStatus) EqualMessageVT(thatMsg proto.Message) bool
 	}
 	return this.EqualVT(that)
 }
+func (this *RelationshipUpdateStatus_Noop) EqualVT(thatIface isRelationshipUpdateStatus_Status) bool {
+	that, ok := thatIface.(*RelationshipUpdateStatus_Noop)
+	if !ok {
+		return false
+	}
+	if this == that {
+		return true
+	}
+	if this == nil && that != nil || this != nil && that == nil {
+		return false
+	}
+	if p, q := this.Noop, that.Noop; p != q {
+		if p == nil {
+			p = &Relationship{}
+		}
+		if q == nil {
+			q = &Relationship{}
+		}
+		if !p.EqualVT(q) {
+			return false
+		}
+	}
+	return true
+}
+
+func (this *RelationshipUpdateStatus_Created) EqualVT(thatIface isRelationshipUpdateStatus_Status) bool {
+	that, ok := thatIface.(*RelationshipUpdateStatus_Created)
+	if !ok {
+		return false
+	}
+	if this == that {
+		return true
+	}
+	if this == nil && that != nil || this != nil && that == nil {
+		return false
+	}
+	if p, q := this.Created, that.Created; p != q {
+		if p == nil {
+			p = &Relationship{}
+		}
+		if q == nil {
+			q = &Relationship{}
+		}
+		if !p.EqualVT(q) {
+			return false
+		}
+	}
+	return true
+}
+
+func (this *RelationshipUpdateStatus_Deleted) EqualVT(thatIface isRelationshipUpdateStatus_Status) bool {
+	that, ok := thatIface.(*RelationshipUpdateStatus_Deleted)
+	if !ok {
+		return false
+	}
+	if this == that {
+		return true
+	}
+	if this == nil && that != nil || this != nil && that == nil {
+		return false
+	}
+	if p, q := this.Deleted, that.Deleted; p != q {
+		if p == nil {
+			p = &Relationship{}
+		}
+		if q == nil {
+			q = &Relationship{}
+		}
+		if !p.EqualVT(q) {
+			return false
+		}
+	}
+	return true
+}
+
+func (this *RelationshipUpdateStatus_Updated) EqualVT(thatIface isRelationshipUpdateStatus_Status) bool {
+	that, ok := thatIface.(*RelationshipUpdateStatus_Updated)
+	if !ok {
+		return false
+	}
+	if this == that {
+		return true
+	}
+	if this == nil && that != nil || this != nil && that == nil {
+		return false
+	}
+	if p, q := this.Updated, that.Updated; p != q {
+		if p == nil {
+			p = &RelationshipUpdateStatus_Update{}
+		}
+		if q == nil {
+			q = &RelationshipUpdateStatus_Update{}
+		}
+		if !p.EqualVT(q) {
+			return false
+		}
+	}
+	return true
+}
+
 func (this *WriteRelationshipsResponse) EqualVT(that *WriteRelationshipsResponse) bool {
 	if this == that {
 		return true
@@ -989,11 +1174,11 @@ func (this *WriteRelationshipsResponse) EqualVT(that *WriteRelationshipsResponse
 	if !this.WrittenAt.EqualVT(that.WrittenAt) {
 		return false
 	}
-	if len(this.UpdateStatuses) != len(that.UpdateStatuses) {
+	if len(this.Updates) != len(that.Updates) {
 		return false
 	}
-	for i, vx := range this.UpdateStatuses {
-		vy := that.UpdateStatuses[i]
+	for i, vx := range this.Updates {
+		vy := that.Updates[i]
 		if p, q := vx, vy; p != q {
 			if p == nil {
 				p = &RelationshipUpdateStatus{}
@@ -2120,6 +2305,59 @@ func (m *WriteRelationshipsRequest) MarshalToSizedBufferVT(dAtA []byte) (int, er
 	return len(dAtA) - i, nil
 }
 
+func (m *RelationshipUpdateStatus_Update) MarshalVT() (dAtA []byte, err error) {
+	if m == nil {
+		return nil, nil
+	}
+	size := m.SizeVT()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBufferVT(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RelationshipUpdateStatus_Update) MarshalToVT(dAtA []byte) (int, error) {
+	size := m.SizeVT()
+	return m.MarshalToSizedBufferVT(dAtA[:size])
+}
+
+func (m *RelationshipUpdateStatus_Update) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+	if m == nil {
+		return 0, nil
+	}
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.unknownFields != nil {
+		i -= len(m.unknownFields)
+		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.New != nil {
+		size, err := m.New.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Old != nil {
+		size, err := m.Old.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *RelationshipUpdateStatus) MarshalVT() (dAtA []byte, err error) {
 	if m == nil {
 		return nil, nil
@@ -2150,8 +2388,46 @@ func (m *RelationshipUpdateStatus) MarshalToSizedBufferVT(dAtA []byte) (int, err
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if m.Relationship != nil {
-		size, err := m.Relationship.MarshalToSizedBufferVT(dAtA[:i])
+	if vtmsg, ok := m.Status.(interface {
+		MarshalToSizedBufferVT([]byte) (int, error)
+	}); ok {
+		size, err := vtmsg.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RelationshipUpdateStatus_Noop) MarshalToVT(dAtA []byte) (int, error) {
+	size := m.SizeVT()
+	return m.MarshalToSizedBufferVT(dAtA[:size])
+}
+
+func (m *RelationshipUpdateStatus_Noop) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Noop != nil {
+		size, err := m.Noop.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+func (m *RelationshipUpdateStatus_Created) MarshalToVT(dAtA []byte) (int, error) {
+	size := m.SizeVT()
+	return m.MarshalToSizedBufferVT(dAtA[:size])
+}
+
+func (m *RelationshipUpdateStatus_Created) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Created != nil {
+		size, err := m.Created.MarshalToSizedBufferVT(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -2160,14 +2436,46 @@ func (m *RelationshipUpdateStatus) MarshalToSizedBufferVT(dAtA []byte) (int, err
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.Status != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Status))
+	return len(dAtA) - i, nil
+}
+func (m *RelationshipUpdateStatus_Deleted) MarshalToVT(dAtA []byte) (int, error) {
+	size := m.SizeVT()
+	return m.MarshalToSizedBufferVT(dAtA[:size])
+}
+
+func (m *RelationshipUpdateStatus_Deleted) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Deleted != nil {
+		size, err := m.Deleted.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
 		i--
-		dAtA[i] = 0x8
+		dAtA[i] = 0x1a
 	}
 	return len(dAtA) - i, nil
 }
+func (m *RelationshipUpdateStatus_Updated) MarshalToVT(dAtA []byte) (int, error) {
+	size := m.SizeVT()
+	return m.MarshalToSizedBufferVT(dAtA[:size])
+}
 
+func (m *RelationshipUpdateStatus_Updated) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Updated != nil {
+		size, err := m.Updated.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0x22
+	}
+	return len(dAtA) - i, nil
+}
 func (m *WriteRelationshipsResponse) MarshalVT() (dAtA []byte, err error) {
 	if m == nil {
 		return nil, nil
@@ -2198,9 +2506,9 @@ func (m *WriteRelationshipsResponse) MarshalToSizedBufferVT(dAtA []byte) (int, e
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if len(m.UpdateStatuses) > 0 {
-		for iNdEx := len(m.UpdateStatuses) - 1; iNdEx >= 0; iNdEx-- {
-			size, err := m.UpdateStatuses[iNdEx].MarshalToSizedBufferVT(dAtA[:i])
+	if len(m.Updates) > 0 {
+		for iNdEx := len(m.Updates) - 1; iNdEx >= 0; iNdEx-- {
+			size, err := m.Updates[iNdEx].MarshalToSizedBufferVT(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -3584,23 +3892,85 @@ func (m *WriteRelationshipsRequest) SizeVT() (n int) {
 	return n
 }
 
-func (m *RelationshipUpdateStatus) SizeVT() (n int) {
+func (m *RelationshipUpdateStatus_Update) SizeVT() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Status != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.Status))
+	if m.Old != nil {
+		l = m.Old.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if m.Relationship != nil {
-		l = m.Relationship.SizeVT()
+	if m.New != nil {
+		l = m.New.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
 	n += len(m.unknownFields)
 	return n
 }
 
+func (m *RelationshipUpdateStatus) SizeVT() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if vtmsg, ok := m.Status.(interface{ SizeVT() int }); ok {
+		n += vtmsg.SizeVT()
+	}
+	n += len(m.unknownFields)
+	return n
+}
+
+func (m *RelationshipUpdateStatus_Noop) SizeVT() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Noop != nil {
+		l = m.Noop.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	return n
+}
+func (m *RelationshipUpdateStatus_Created) SizeVT() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Created != nil {
+		l = m.Created.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	return n
+}
+func (m *RelationshipUpdateStatus_Deleted) SizeVT() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Deleted != nil {
+		l = m.Deleted.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	return n
+}
+func (m *RelationshipUpdateStatus_Updated) SizeVT() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Updated != nil {
+		l = m.Updated.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	return n
+}
 func (m *WriteRelationshipsResponse) SizeVT() (n int) {
 	if m == nil {
 		return 0
@@ -3611,8 +3981,8 @@ func (m *WriteRelationshipsResponse) SizeVT() (n int) {
 		l = m.WrittenAt.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if len(m.UpdateStatuses) > 0 {
-		for _, e := range m.UpdateStatuses {
+	if len(m.Updates) > 0 {
+		for _, e := range m.Updates {
 			l = e.SizeVT()
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
@@ -5274,6 +5644,129 @@ func (m *WriteRelationshipsRequest) UnmarshalVT(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *RelationshipUpdateStatus_Update) UnmarshalVT(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return protohelpers.ErrIntOverflow
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RelationshipUpdateStatus_Update: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RelationshipUpdateStatus_Update: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Old", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Old == nil {
+				m.Old = &Relationship{}
+			}
+			if err := m.Old.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field New", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.New == nil {
+				m.New = &Relationship{}
+			}
+			if err := m.New.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.unknownFields = append(m.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *RelationshipUpdateStatus) UnmarshalVT(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -5304,27 +5797,8 @@ func (m *RelationshipUpdateStatus) UnmarshalVT(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
-			}
-			m.Status = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Status |= RelationshipUpdateStatus_Status(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Relationship", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Noop", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -5351,11 +5825,139 @@ func (m *RelationshipUpdateStatus) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Relationship == nil {
-				m.Relationship = &Relationship{}
+			if oneof, ok := m.Status.(*RelationshipUpdateStatus_Noop); ok {
+				if err := oneof.Noop.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+			} else {
+				v := &Relationship{}
+				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+				m.Status = &RelationshipUpdateStatus_Noop{Noop: v}
 			}
-			if err := m.Relationship.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
-				return err
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Created", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if oneof, ok := m.Status.(*RelationshipUpdateStatus_Created); ok {
+				if err := oneof.Created.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+			} else {
+				v := &Relationship{}
+				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+				m.Status = &RelationshipUpdateStatus_Created{Created: v}
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Deleted", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if oneof, ok := m.Status.(*RelationshipUpdateStatus_Deleted); ok {
+				if err := oneof.Deleted.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+			} else {
+				v := &Relationship{}
+				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+				m.Status = &RelationshipUpdateStatus_Deleted{Deleted: v}
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Updated", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if oneof, ok := m.Status.(*RelationshipUpdateStatus_Updated); ok {
+				if err := oneof.Updated.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+			} else {
+				v := &RelationshipUpdateStatus_Update{}
+				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+					return err
+				}
+				m.Status = &RelationshipUpdateStatus_Updated{Updated: v}
 			}
 			iNdEx = postIndex
 		default:
@@ -5447,7 +6049,7 @@ func (m *WriteRelationshipsResponse) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UpdateStatuses", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Updates", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -5474,8 +6076,8 @@ func (m *WriteRelationshipsResponse) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.UpdateStatuses = append(m.UpdateStatuses, &RelationshipUpdateStatus{})
-			if err := m.UpdateStatuses[len(m.UpdateStatuses)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+			m.Updates = append(m.Updates, &RelationshipUpdateStatus{})
+			if err := m.Updates[len(m.Updates)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
